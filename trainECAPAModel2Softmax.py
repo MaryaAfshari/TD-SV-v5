@@ -85,7 +85,7 @@ score_file = open(os.path.join(args.save_path, "score.txt"), "a+")
 while(1):
     # Training for one epoch
     if epoch > 0: # I should change it later if I want to train from the base ........5.6.5024
-        loss, lr, acc = s.train_network(epoch=epoch, loader=trainLoader)
+        loss, lr, acc = s.train_network2(epoch=epoch, loader=trainLoader)
 
     # Enrollment and Testing every [test_step] epochs
     if epoch % args.test_step == 0:
