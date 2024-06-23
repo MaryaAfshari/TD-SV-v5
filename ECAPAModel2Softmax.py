@@ -48,21 +48,24 @@ class ECAPAModel(nn.Module):
             logits = self.classifier(speaker_embedding)
             nloss = self.loss_fn(logits, speaker_labels)
             
-            prec = (torch.argmax(logits, dim=1) == speaker_labels).sum().item() / speaker_labels.size(0)
+            #prec = (torch.argmax(logits, dim=1) == speaker_labels).sum().item() / speaker_labels.size(0)
             
             nloss.backward()
             self.optim.step()
 
             index += len(speaker_labels)
-            top1 += prec
-            loss += nloss.detach().cpu().numpy()
+            total_loss += nloss.detach().cpu().numpy()
+            #top1 += prec
+            #loss += nloss.detach().cpu().numpy()
+            correct += (torch.argmax(logits, dim=1) == speaker_labels).sum().item()  # Accumulate correct predictions
 
             sys.stderr.write(time.strftime("%m-%d %H:%M:%S") + \
                              " [%2d] Lr: %5f, Training: %.2f%%, " % (epoch, lr, 100 * (num / loader.__len__())) + \
-                             " Loss: %.5f, ACC: %2.2f%% \r" % (loss / (num), top1 / index * len(speaker_labels)))
+                             " Loss: %.5f, ACC: %2.2f%% \r" % (total_loss / num, correct / index * 100))
             sys.stderr.flush()
         sys.stdout.write("\n")
-        return loss / num, lr, top1 / index * len(speaker_labels)
+        #return loss / num, lr, top1 / index * len(speaker_labels)
+        return total_loss / num, lr, correct / index * 100  # Return accuracy as a percentage
 
     def enroll_network(self, enroll_list, enroll_path, path_save_model):
         self.eval()
