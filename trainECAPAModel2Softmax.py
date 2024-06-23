@@ -34,9 +34,9 @@ parser.add_argument('--enroll_list', type=str, default="/mnt/disk1/data/TdSVC202
 parser.add_argument('--enroll_path', type=str, default="/mnt/disk1/data/TdSVC2024/task1/wav/enrollment", help='The path of the enrollment data')
 parser.add_argument('--musan_path', type=str, default="/data08/Others/musan_split", help='The path to the MUSAN set')
 parser.add_argument('--rir_path', type=str, default="/data08/Others/RIRS_NOISES/simulated_rirs", help='The path to the RIR set')
-parser.add_argument('--save_path', type=str, default="/mnt/disk1/users/afshari/MyEcapaModelTry3-code7", help='Path to save the score.txt and models')
+parser.add_argument('--save_path', type=str, default="/mnt/disk1/users/afshari/code10-model", help='Path to save the score.txt and models')
 parser.add_argument('--initial_model', type=str, default="", help='Path of the initial_model')
-parser.add_argument('--path_save_model', type=str, default="/mnt/disk1/users/afshari/MyEnrollmentTry3-code7", help='Path to save the enrollment and models')
+parser.add_argument('--path_save_model', type=str, default="/mnt/disk1/users/afshari/code10-enroll", help='Path to save the enrollment and models')
 
 # Model and Loss settings
 parser.add_argument('--C', type=int, default=1024, help='Channel size for the speaker encoder')
