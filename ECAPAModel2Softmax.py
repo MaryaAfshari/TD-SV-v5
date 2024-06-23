@@ -11,7 +11,7 @@ import pickle
 import zipfile
 
 from tools import *
-from model import ECAPA_TDNN
+from models2 import ECAPA_TDNN
 
 class ECAPAModel(nn.Module):
     def __init__(self, lr, lr_decay, C, n_class, test_step, **kwargs):
@@ -19,14 +19,14 @@ class ECAPAModel(nn.Module):
         ## ECAPA-TDNN
         self.speaker_encoder = ECAPA_TDNN(C=C).cuda()
 
-        # Determine the embedding dimension by passing a dummy input through the model
-        dummy_input = torch.randn(1, 16000).cuda()  # Assuming 1-second audio with a sample rate of 16 kHz
-        dummy_output = self.speaker_encoder(dummy_input, aug=False)
-        self.emb_dim = dummy_output.shape[1]
+        # # Determine the embedding dimension by passing a dummy input through the model
+        # dummy_input = torch.randn(1, 16000).cuda()  # Assuming 1-second audio with a sample rate of 16 kHz
+        # dummy_output = self.speaker_encoder(dummy_input, aug=False)
+        # self.emb_dim = dummy_output.shape[1]
 
         ## Classifier
-        #self.classifier = nn.Linear(self.speaker_encoder.emb_dim, n_class).cuda()
-        self.classifier = nn.Linear(self.emb_dim, n_class).cuda()
+        self.classifier = nn.Linear(self.speaker_encoder.emb_dim, n_class).cuda()
+        #self.classifier = nn.Linear(self.emb_dim, n_class).cuda()
         self.loss_fn = nn.CrossEntropyLoss().cuda()
         
         self.optim = torch.optim.Adam(self.parameters(), lr=lr, weight_decay=2e-5)
